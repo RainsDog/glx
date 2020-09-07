@@ -21,6 +21,7 @@ server.on('request', (req, res) => {
     var { pathname, query } = url.parse(req.url, true);
 
     pathname = pathname == '/' ? '/login.html' : pathname;
+
     //将用户请求路径转换为实际硬盘路径
     let realPath = path.join(__dirname, pathname);
     console.log(realPath);
@@ -57,7 +58,7 @@ server.on('request', (req, res) => {
                 // location 跳转地址
                 console.log(user);
                 res.writeHead(301, {
-                    Location: '/loveu'
+                    Location: '/index.html'
                 });
                 res.end();
             })
