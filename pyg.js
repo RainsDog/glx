@@ -9,18 +9,17 @@ var cp = require('child_process');
 //创建服务
 var httpServer = http.createServer(processRequest);
 // 这是端口号
-var port = 3000;
+var port = 80;
 
 //指定一个监听的接口
 httpServer.listen(port, function() {
     console.log(`app is running at port:${port}`);
     console.log(`url: http://localhost:${port}`);
-    cp.exec(`explorer http://localhost:${port}`, function () {
-    });
+    cp.exec(`explorer http://localhost:${port}`, function() {});
 });
 
 //响应请求的函数
-function processRequest (request, response) {
+function processRequest(request, response) {
     //mime类型
     var mime = {
         "css": "text/css",
@@ -42,7 +41,7 @@ function processRequest (request, response) {
         "wmv": "video/x-ms-wmv",
         "xml": "text/xml"
     };
-    
+
     //request里面切出标识符字符串
     var requestUrl = request.url;
     //url模块的parse方法 接受一个字符串，返回一个url对象,切出来路径
@@ -63,9 +62,9 @@ function processRequest (request, response) {
     }
 
     //获取资源文件的绝对路径
-  /*  var filePath = path.resolve(__dirname + pathName);*/
-   //__dirname是访问项目静态资源的路径 我的项目静态文件都在public下所以我写public可根据自己项目路径来配置哦
-  var filePath = path.resolve("/root/project/pinyougou" + pathName);
+    /*  var filePath = path.resolve(__dirname + pathName);*/
+    //__dirname是访问项目静态资源的路径 我的项目静态文件都在public下所以我写public可根据自己项目路径来配置哦
+    var filePath = path.resolve("/root/project/pinyougou" + pathName);
     console.log(filePath);
     //获取对应文件的文档类型
     //我们通过path.extname来获取文件的后缀名。由于extname返回值包含”.”，所以通过slice方法来剔除掉”.”，
@@ -98,13 +97,13 @@ function processRequest (request, response) {
                     for (var file of files) {
                         //如果在目录下找到index.html，直接读取这个文件
                         if (file === "index.html") {
-                            readFile(filePath + (filePath[filePath.length-1]=='/' ? '' : '/') + 'index.html', "text/html");
+                            readFile(filePath + (filePath[filePath.length - 1] == '/' ? '' : '/') + 'index.html', "text/html");
                             flag = true;
                             break;
                         };
                         html += `<li><a href='${file}'>${file}</a></li>`;
                     }
-                    if(!flag) {
+                    if (!flag) {
                         html += '</ul></body>';
                         response.writeHead(200, { "content-type": "text/html" });
                         response.end(html);
@@ -114,7 +113,7 @@ function processRequest (request, response) {
         }
 
         //读取文件的函数
-        function readFile(filePath, contentType){
+        function readFile(filePath, contentType) {
             response.writeHead(200, { "content-type": contentType });
             //建立流对象，读文件
             var stream = fs.createReadStream(filePath);
